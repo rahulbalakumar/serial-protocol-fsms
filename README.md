@@ -51,7 +51,7 @@ module spi_fsm (
 
 **State diagram**
 
-![spi_fsm state diagram](fsm_diagram.png)
+![spi_fsm state diagram](fsm_diagram.svg)
 
 **Key design decisions (and why)**
 
