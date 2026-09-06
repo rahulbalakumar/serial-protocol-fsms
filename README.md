@@ -49,6 +49,10 @@ module spi_fsm (
   - `falling_edge && !bit_count_done` → pulse `shift_en` (data is shifted to the next bit)
   - `falling_edge && bit_count_done` → pulse `shift_en`, transition back to `IDLE`
 
+**State diagram**
+
+![spi_fsm state diagram](fsm_diagram.png)
+
 **Key design decisions (and why)**
 
 - **No dedicated `LOAD` state.** `spi_shift_reg`'s registered load-to-output delay (1 cycle) is always ≤ `spi_clock_gen`'s enable-to-first-edge delay (≥1 cycle, since it's a divided clock), so data is guaranteed valid before SCLK's first real toggle — no race, no extra state needed.
