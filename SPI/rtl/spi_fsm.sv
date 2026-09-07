@@ -20,15 +20,15 @@ module spi_fsm (
 
     state_t state, next_state;
 
-    always_ff @(posedge clk or negedge rstn) begin
+    always_ff @(posedge clk or negedge rstn) begin // State Register
         if (!rstn) begin
             state <= IDLE;
         end else begin
-            state <= next_state:
+            state <= next_state;
         end
     end
 
-    always_comb begin
+    always_comb begin // FSM next state logic
         next_state = state;
 
         case(state)
@@ -48,13 +48,13 @@ module spi_fsm (
         endcase
     end
 
-    always_comb begin 
+    always_comb begin // Moore FSM
         cs = (state == IDLE);
         sclk_en = (state == TRANSFER);
         busy = (state == TRANSFER);
     end
 
-    always_comb begin // Output 
+    always_comb begin // Mealy FSM
         load = 0;
         sample_en = 0;
         shift_en = 0;
@@ -71,7 +71,7 @@ module spi_fsm (
                     sample_en = 1;
                 end
 
-                if (falling_edge && !bit_count_done) begin
+                if (falling_edge) begin
                     shift_en = 1;
                 end
             end
